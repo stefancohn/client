@@ -372,7 +372,7 @@ class ITChoices extends StatelessWidget {
         controller.currentITStep!.continuances[index];
     if (continuance.level == 1) {
       Future.delayed(
-        const Duration(milliseconds: 1250),
+        const Duration(milliseconds: 1500),
         () => controller.selectTranslation(index),
       );
     } else {

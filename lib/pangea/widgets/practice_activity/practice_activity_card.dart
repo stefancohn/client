@@ -224,7 +224,7 @@ class PracticeActivityCardState extends State<PracticeActivityCard> {
         timeStamp: DateTime.now(),
       );
 
-  final Duration _savorTheJoyDuration = const Duration(seconds: 2);
+  final Duration _savorTheJoyDuration = const Duration(seconds: 1, milliseconds: 500);
 
   Future<void> _savorTheJoy() async {
     try {
@@ -341,6 +341,7 @@ class PracticeActivityCardState extends State<PracticeActivityCard> {
       );
     }
 
+
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -348,8 +349,7 @@ class PracticeActivityCardState extends State<PracticeActivityCard> {
         Positioned(
           child: PointsGainedAnimation(
             origin: AnalyticsUpdateOrigin.practiceActivity,
-            parentSize: context.findRenderObject() != null ? context.findRenderObject()!.paintBounds.size : const Size(400, 100),
-            activityType: currentActivity?.activityType,
+            parentSize: context.findRenderObject() != null ? Size(325, context.findRenderObject()!.paintBounds.size.height * 1.4) : const Size(400, 100),
           ),
         ),
         if (activityWidget != null) activityWidget!,

@@ -59,7 +59,7 @@ class ITController {
     choreographer.setState();
   }
 
-  Duration get animationSpeed => const Duration(milliseconds: 500);
+  Duration get animationSpeed => const Duration(milliseconds: 1500);
 
   Future<void> initializeIT(ITStartData itStartData) async {
     _willOpen = true;

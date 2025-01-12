@@ -238,6 +238,7 @@ class WordMatchContent extends StatelessWidget {
             top: 40,
             child: PointsGainedAnimation(
               origin: AnalyticsUpdateOrigin.igc,
+              parentSize: Size(300, 90),
             ),
           ),
           Column(

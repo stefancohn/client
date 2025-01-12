@@ -1,10 +1,6 @@
 import 'dart:async';
 import 'dart:math' show Random;
-
-import 'package:fluffychat/config/app_config.dart';
-import 'package:fluffychat/pangea/enum/activity_type_enum.dart';
 import 'package:flutter/material.dart';
-
 import 'package:fluffychat/pangea/controllers/get_analytics_controller.dart';
 import 'package:fluffychat/pangea/controllers/put_analytics_controller.dart';
 import 'package:fluffychat/pangea/utils/bot_style.dart';
@@ -15,7 +11,6 @@ class PointsGainedAnimation extends StatefulWidget {
   final Color? loseColor;
   final AnalyticsUpdateOrigin origin;
   final Size? parentSize;
-  final ActivityTypeEnum? activityType;
 
   const PointsGainedAnimation({
     super.key,
@@ -25,7 +20,6 @@ class PointsGainedAnimation extends StatefulWidget {
     this.loseColor = Colors.red,
 
     this.parentSize,
-    this.activityType,
   });
 
   @override
@@ -41,6 +35,7 @@ class PointsGainedAnimationState extends State<PointsGainedAnimation>
       MatrixState.pangeaController.getAnalytics.constructListModel.prevXP;
   int? get _currentXP =>
       MatrixState.pangeaController.getAnalytics.constructListModel.totalXP;
+
   int? _addedPoints;
 
   late TextStyle _style;
@@ -82,22 +77,26 @@ class PointsGainedAnimationState extends State<PointsGainedAnimation>
           gain = false;
         } else {
           _style = _style.copyWith(color: widget.gainColor);
+          gain=true;
         }
 
-        print(widget.parentSize);
+        //print('Points gained: $_addedPoints size: ${widget.parentSize}, and gain: $gain');
 
         // Create n PointWidgets for each amt of XP gained
         for (int i = 0; i < _addedPoints!.abs(); i++) {
           final double x = (Random().nextBool() ? 1 : -1) * Random().nextDouble() * (widget.parentSize!.width/2) ;
           final double y = -widget.parentSize!.height/2 + (Random().nextBool() ? 1 : -1) * (Random().nextDouble() * 10); // Get to top of parent widget, with variance
+          final uniqueKey = UniqueKey();
 
           _points.add(_PointWidget(
-            key: UniqueKey(),
+            key: uniqueKey,
             initialPosition: widget.parentSize != null ? Offset( x, y) : const Offset(0,0),
             style: _style,
             gain: gain,
             onComplete: () {
-              setState(() => _points.removeWhere((p) => p.key == i));
+              setState(() {
+                _points.clear();
+              });
             },
           ),);
         }
@@ -247,7 +246,7 @@ class _PointWidgetState extends State<_PointWidget> with SingleTickerProviderSta
     );
 
     _controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed) widget.onComplete();
+      if (status == AnimationStatus.completed) widget.onComplete(); 
     });
 
     _controller.forward();
