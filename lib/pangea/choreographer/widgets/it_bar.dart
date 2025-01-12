@@ -243,6 +243,7 @@ class ITBarState extends State<ITBar> with SingleTickerProviderStateMixin {
                 top: 60,
                 child: PointsGainedAnimation(
                   origin: AnalyticsUpdateOrigin.it,
+                  parentSize: Size(400,120),
                 ),
               ),
             ],
@@ -371,7 +372,7 @@ class ITChoices extends StatelessWidget {
         controller.currentITStep!.continuances[index];
     if (continuance.level == 1) {
       Future.delayed(
-        const Duration(milliseconds: 500),
+        const Duration(milliseconds: 1250),
         () => controller.selectTranslation(index),
       );
     } else {
